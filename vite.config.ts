@@ -6,7 +6,9 @@
   export default defineConfig({
     plugins: [react()],
     // For GitHub Pages: use '/' for user/org pages, or '/repository-name/' for project pages
-    base: process.env.NODE_ENV === 'production' ? '/Delivery-Manager-Dashboard/' : '/',
+    // For user/org pages (username.github.io), base should be '/'
+    // For project pages, use '/repository-name/'
+    base: process.env.NODE_ENV === 'production' ? '/' : '/',
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
@@ -53,7 +55,7 @@
     },
     build: {
       target: 'esnext',
-      outDir: 'dist',
+      outDir: 'build',
     },
     server: {
       port: 3000,

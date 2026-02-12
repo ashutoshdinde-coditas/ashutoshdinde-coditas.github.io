@@ -53,8 +53,6 @@ interface Project {
   billableHours?: number; // Billable hours
   totalHours?: number; // Total hours
   nonBillableHours?: number; // Non-billable hours
-  projectStartDate?: string; // Project start date
-  projectEndDate?: string; // Project end date
 }
 
 interface PM {
@@ -72,35 +70,19 @@ const PMS: PM[] = [
   { id: 'pm4', name: 'Emily White', avatar: 'EW' },
 ];
 
-// Helper function to format date as YYYY-MM-DD
-const formatDate = (date: Date): string => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
-
-// Generate dates relative to today
-const today = new Date();
-const getDateInDays = (days: number): string => {
-  const date = new Date(today);
-  date.setDate(today.getDate() + days);
-  return formatDate(date);
-};
-
 const PROJECTS: Project[] = [
-  { id: 'p1', name: 'Alpha Migration', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'At Risk', utilization: 85, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 92, lastAuditDate: formatDate(new Date(today.getTime() - 10 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(45), resourceReleaseDate: getDateInDays(20), resourceCount: 3, billingRatio: 75, projectStartDate: '2023-01-15', projectEndDate: getDateInDays(60) },
-  { id: 'p2', name: 'Beta E-com Revamp', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'On Track', utilization: 95, wsrStatus: 'Amber', wsrDelayDays: 0, auditScore: 84, lastAuditDate: formatDate(new Date(today.getTime() - 15 * 24 * 60 * 60 * 1000)), riskLevel: 'Medium', sowExpirationDate: getDateInDays(50), resourceReleaseDate: getDateInDays(25), resourceCount: 2, billingRatio: 85, projectStartDate: '2023-03-01', projectEndDate: getDateInDays(90) },
-  { id: 'p3', name: 'Gamma Cloud Native', pmId: 'pm2', pmName: 'Michael Chen', health: 'Completed', utilization: 115, wsrStatus: 'Amber', wsrDelayDays: 3, auditScore: 75, lastAuditDate: formatDate(new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000)), riskLevel: 'High', sowExpirationDate: getDateInDays(40), resourceReleaseDate: getDateInDays(18), resourceCount: 5, billingRatio: 60, teamSize: 8, billableHours: 742, totalHours: 1280, nonBillableHours: 538, projectStartDate: '2022-11-01', projectEndDate: getDateInDays(45) },
-  { id: 'p4', name: 'Delta Security Fix', pmId: 'pm2', pmName: 'Michael Chen', health: 'Off Track', utilization: 70, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 95, lastAuditDate: formatDate(new Date(today.getTime() - 5 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(80), resourceReleaseDate: getDateInDays(40), resourceCount: 1, billingRatio: 90, projectStartDate: '2023-06-01', projectEndDate: getDateInDays(120) },
-  { id: 'p5', name: 'Epsilon Analytics', pmId: 'pm3', pmName: 'David Ross', health: 'On Track', utilization: 88, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 91, lastAuditDate: formatDate(new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(60), resourceReleaseDate: getDateInDays(22), resourceCount: 4, billingRatio: 72, teamSize: 9, billableHours: 1036, totalHours: 1440, nonBillableHours: 404, projectStartDate: '2023-02-15', projectEndDate: getDateInDays(75) },
-  { id: 'p6', name: 'Zeta Mobile App', pmId: 'pm3', pmName: 'David Ross', health: 'At Risk', utilization: 120, wsrStatus: 'Amber', wsrDelayDays: 8, auditScore: 65, lastAuditDate: formatDate(new Date(today.getTime() - 45 * 24 * 60 * 60 * 1000)), riskLevel: 'High', sowExpirationDate: getDateInDays(55), resourceReleaseDate: getDateInDays(15), resourceCount: 5, billingRatio: 55, teamSize: 10, billableHours: 880, totalHours: 1600, nonBillableHours: 720, projectStartDate: '2023-04-01', projectEndDate: getDateInDays(70) },
-  { id: 'p7', name: 'Theta CRM Integration', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 105, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 88, lastAuditDate: formatDate(new Date(today.getTime() - 13 * 24 * 60 * 60 * 1000)), riskLevel: 'Medium', sowExpirationDate: getDateInDays(85), resourceReleaseDate: getDateInDays(28), resourceCount: 2, billingRatio: 70, teamSize: 12, billableHours: 1190, totalHours: 1920, nonBillableHours: 730, projectStartDate: '2023-05-01', projectEndDate: getDateInDays(100) },
-  { id: 'p8', name: 'Iota Payment Gateway', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 80, wsrStatus: 'Green', wsrDelayDays: 0, auditScore: 94, lastAuditDate: formatDate(new Date(today.getTime() - 3 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(120), resourceReleaseDate: getDateInDays(50), resourceCount: 1, billingRatio: 92, projectStartDate: '2023-07-01', projectEndDate: getDateInDays(150) },
-  { id: 'p9', name: 'Kappa AI Pilot', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'On Track', utilization: 92, wsrStatus: 'Amber', wsrDelayDays: 2, auditScore: 82, lastAuditDate: formatDate(new Date(today.getTime() - 20 * 24 * 60 * 60 * 1000)), riskLevel: 'Medium', sowExpirationDate: getDateInDays(65), resourceReleaseDate: getDateInDays(30), resourceCount: 3, billingRatio: 78, projectStartDate: '2023-08-01', projectEndDate: getDateInDays(80) },
-  { id: 'p10', name: 'Lambda Legacy', pmId: 'pm2', pmName: 'Michael Chen', health: 'At Risk', utilization: 60, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 96, lastAuditDate: formatDate(new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(140), resourceReleaseDate: getDateInDays(60), resourceCount: 2, billingRatio: 95, projectStartDate: '2023-09-01', projectEndDate: getDateInDays(180) },
-  { id: 'p11', name: 'Mu Logistics', pmId: 'pm3', pmName: 'David Ross', health: 'On Track', utilization: 85, wsrStatus: 'Green', wsrDelayDays: 0, auditScore: 90, lastAuditDate: formatDate(new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000)), riskLevel: 'Low', sowExpirationDate: getDateInDays(180), resourceReleaseDate: getDateInDays(5), resourceCount: 4, billingRatio: 82, projectStartDate: '2023-10-01', projectEndDate: getDateInDays(200) },
-  { id: 'p12', name: 'Nu HR Portal', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 112, wsrStatus: 'Red', wsrDelayDays: 10, auditScore: 78, lastAuditDate: formatDate(new Date(today.getTime() - 35 * 24 * 60 * 60 * 1000)), riskLevel: 'High', sowExpirationDate: getDateInDays(35), resourceReleaseDate: getDateInDays(10), resourceCount: 6, billingRatio: 65, projectStartDate: '2023-01-01', projectEndDate: getDateInDays(50) },
+  { id: 'p1', name: 'Alpha Migration', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'At Risk', utilization: 85, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 92, lastAuditDate: '2023-10-15', riskLevel: 'Low', sowExpirationDate: '2023-11-30', resourceReleaseDate: '2023-11-15', resourceCount: 3, billingRatio: 75 },
+  { id: 'p2', name: 'Beta E-com Revamp', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'On Track', utilization: 95, wsrStatus: 'Amber', wsrDelayDays: 0, auditScore: 84, lastAuditDate: '2023-10-10', riskLevel: 'Medium', sowExpirationDate: '2024-01-15', resourceReleaseDate: '2023-12-20', resourceCount: 2, billingRatio: 85 },
+  { id: 'p3', name: 'Gamma Cloud Native', pmId: 'pm2', pmName: 'Michael Chen', health: 'Completed', utilization: 115, wsrStatus: 'Amber', wsrDelayDays: 3, auditScore: 75, lastAuditDate: '2023-09-28', riskLevel: 'High', sowExpirationDate: '2023-11-10', resourceReleaseDate: '2023-11-05', resourceCount: 5, billingRatio: 60, teamSize: 8, billableHours: 742, totalHours: 1280, nonBillableHours: 538 },
+  { id: 'p4', name: 'Delta Security Fix', pmId: 'pm2', pmName: 'Michael Chen', health: 'Off Track', utilization: 70, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 95, lastAuditDate: '2023-10-20', riskLevel: 'Low', sowExpirationDate: '2024-02-28', resourceReleaseDate: '2024-01-10', resourceCount: 1, billingRatio: 90 },
+  { id: 'p5', name: 'Epsilon Analytics', pmId: 'pm3', pmName: 'David Ross', health: 'On Track', utilization: 88, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 91, lastAuditDate: '2023-10-18', riskLevel: 'Low', sowExpirationDate: '2023-12-31', resourceReleaseDate: '2023-12-15', resourceCount: 4, billingRatio: 72, teamSize: 9, billableHours: 1036, totalHours: 1440, nonBillableHours: 404 },
+  { id: 'p6', name: 'Zeta Mobile App', pmId: 'pm3', pmName: 'David Ross', health: 'At Risk', utilization: 120, wsrStatus: 'Amber', wsrDelayDays: 8, auditScore: 65, lastAuditDate: '2023-09-15', riskLevel: 'High', sowExpirationDate: '2023-11-20', resourceReleaseDate: '2023-11-12', resourceCount: 5, billingRatio: 55, teamSize: 10, billableHours: 880, totalHours: 1600, nonBillableHours: 720 },
+  { id: 'p7', name: 'Theta CRM Integration', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 105, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 88, lastAuditDate: '2023-10-12', riskLevel: 'Medium', sowExpirationDate: '2024-03-15', resourceReleaseDate: '2024-01-25', resourceCount: 2, billingRatio: 70, teamSize: 12, billableHours: 1190, totalHours: 1920, nonBillableHours: 730 },
+  { id: 'p8', name: 'Iota Payment Gateway', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 80, wsrStatus: 'Green', wsrDelayDays: 0, auditScore: 94, lastAuditDate: '2023-10-22', riskLevel: 'Low', sowExpirationDate: '2024-04-30', resourceReleaseDate: '2024-02-10', resourceCount: 1, billingRatio: 92 },
+  { id: 'p9', name: 'Kappa AI Pilot', pmId: 'pm1', pmName: 'Sarah Jenkins', health: 'On Track', utilization: 92, wsrStatus: 'Amber', wsrDelayDays: 2, auditScore: 82, lastAuditDate: '2023-10-05', riskLevel: 'Medium', sowExpirationDate: '2023-12-15', resourceReleaseDate: '2023-11-28', resourceCount: 3, billingRatio: 78 },
+  { id: 'p10', name: 'Lambda Legacy', pmId: 'pm2', pmName: 'Michael Chen', health: 'At Risk', utilization: 60, wsrStatus: 'Red', wsrDelayDays: 0, auditScore: 96, lastAuditDate: '2023-10-25', riskLevel: 'Low', sowExpirationDate: '2024-05-20', resourceReleaseDate: '2024-02-28', resourceCount: 2, billingRatio: 95 },
+  { id: 'p11', name: 'Mu Logistics', pmId: 'pm3', pmName: 'David Ross', health: 'On Track', utilization: 85, wsrStatus: 'Green', wsrDelayDays: 0, auditScore: 90, lastAuditDate: '2023-10-19', riskLevel: 'Low', sowExpirationDate: '2024-06-30', resourceReleaseDate: '2024-03-15', resourceCount: 4, billingRatio: 82 },
+  { id: 'p12', name: 'Nu HR Portal', pmId: 'pm4', pmName: 'Emily White', health: 'At Risk', utilization: 112, wsrStatus: 'Red', wsrDelayDays: 10, auditScore: 78, lastAuditDate: '2023-09-20', riskLevel: 'High', sowExpirationDate: '2023-11-05', resourceReleaseDate: '2023-11-01', resourceCount: 6, billingRatio: 65 },
 ];
 
 const PM_DETAILS_MOCK: Record<string, any> = {
@@ -361,17 +343,14 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
   // Key metrics calculations
   const keyMetrics = useMemo(() => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
     const thirtyDaysFromNow = new Date();
     thirtyDaysFromNow.setDate(today.getDate() + 30);
-    thirtyDaysFromNow.setHours(23, 59, 59, 999); // End of day
 
     // Projects with expiring SOWs (within next 90 days)
     const expiringSOWs = projects
       .filter(p => {
         if (!p.sowExpirationDate) return false;
         const expDate = new Date(p.sowExpirationDate);
-        expDate.setHours(0, 0, 0, 0);
         const daysUntilExpiry = Math.ceil((expDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
         return daysUntilExpiry > 0 && daysUntilExpiry <= 90;
       })
@@ -387,10 +366,7 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
       .filter(p => {
         if (!p.resourceReleaseDate) return false;
         const releaseDate = new Date(p.resourceReleaseDate);
-        releaseDate.setHours(0, 0, 0, 0);
-        const releaseDateEnd = new Date(releaseDate);
-        releaseDateEnd.setHours(23, 59, 59, 999);
-        return releaseDateEnd >= today && releaseDate <= thirtyDaysFromNow;
+        return releaseDate >= today && releaseDate <= thirtyDaysFromNow;
       })
       .map(p => ({
         ...p,
@@ -462,8 +438,8 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
       */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
         {/* Projects with Overdue WSR */}
-        <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500 h-96">
-          <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+        <Card className="overflow-hidden flex flex-col h-full border-l-4 border-l-red-500">
+          <div className="p-4 border-b border-gray-200 bg-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <FileText className="w-5 h-5 text-red-600" />
@@ -475,7 +451,7 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
             </div>
             <p className="text-xs text-gray-600 mt-1.5">Projects with delayed or missing weekly status reports</p>
           </div>
-          <div className="p-4 overflow-y-auto bg-gray-50 flex-1 min-h-0">
+          <div className="p-4 flex-1 overflow-y-auto bg-gray-50">
             {overdueWSRProjects.length === 0 ? (
               <div className="text-center py-8 text-gray-500 text-sm">No overdue WSR projects</div>
             ) : (
@@ -500,8 +476,8 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
         </Card>
 
         {/* Projects with Overdue Audit */}
-        <Card className="overflow-hidden flex flex-col border-l-4 border-l-amber-500 h-96">
-          <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+        <Card className="overflow-hidden flex flex-col h-full border-l-4 border-l-amber-500">
+          <div className="p-4 border-b border-gray-200 bg-white">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-5 h-5 text-amber-600" />
@@ -513,7 +489,7 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
             </div>
             <p className="text-xs text-gray-600 mt-1.5">Projects requiring immediate audit review</p>
           </div>
-          <div className="p-4 overflow-y-auto bg-gray-50 flex-1 min-h-0">
+          <div className="p-4 flex-1 overflow-y-auto bg-gray-50">
             {overdueAuditProjects.length === 0 ? (
               <div className="text-center py-8 text-gray-500 text-sm">No overdue audit projects</div>
             ) : (
@@ -552,8 +528,8 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
         {/* First Row: Expiring SOWs and Resources Releasing Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Expiring SOWs Card */}
-          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500 h-96">
-            <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500">
+            <div className="p-4 border-b border-gray-200 bg-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-red-600" />
@@ -565,43 +541,31 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
               </div>
               <p className="text-xs text-gray-600 mt-1.5">Immediate action required for contract renewals</p>
             </div>
-            <div className="overflow-y-auto overflow-x-auto flex-1 min-h-0">
+            <div className="p-4 max-h-64 overflow-y-auto bg-gray-50">
               {keyMetrics.expiringSOWs.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 text-sm">No expiring SOWs</div>
+                <div className="text-center py-4 text-gray-500 text-sm">No expiring SOWs</div>
               ) : (
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">Project Name</th>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">Date of Expiry</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {keyMetrics.expiringSOWs.map(p => (
-                      <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <div className={cn(
-                              "w-2 h-2 rounded-full",
-                              p.daysUntilExpiry <= 30 ? "bg-red-500" : "bg-amber-500"
-                            )} />
-                            <span className="font-medium text-gray-900">{p.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-gray-600">
-                          {new Date(p.expirationDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="space-y-2">
+                  {keyMetrics.expiringSOWs.map(p => (
+                    <div key={p.id} className="flex items-center gap-3 p-2 bg-white rounded hover:bg-gray-50 transition-colors">
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        p.daysUntilExpiry <= 30 ? "bg-red-500" : "bg-amber-500"
+                      )} />
+                      <div className="flex-1">
+                        <div className="font-medium text-sm text-gray-900">{p.name}</div>
+                        <div className="text-xs text-gray-500">{p.daysUntilExpiry} days</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </Card>
 
           {/* Resource Releases Card */}
-          <Card className="overflow-hidden flex flex-col border-l-4 border-l-amber-500 h-96">
-            <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+          <Card className="overflow-hidden flex flex-col border-l-4 border-l-amber-500">
+            <div className="p-4 border-b border-gray-200 bg-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Users className="w-5 h-5 text-amber-600" />
@@ -613,36 +577,26 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
               </div>
               <p className="text-xs text-gray-600 mt-1.5">Plan reallocation or backfill requirements</p>
             </div>
-            <div className="overflow-y-auto overflow-x-auto flex-1 min-h-0">
+            <div className="p-4 max-h-64 overflow-y-auto bg-gray-50">
               {keyMetrics.releasingResources.length === 0 ? (
-                <div className="text-center py-8 text-gray-500 text-sm">No resource releases scheduled</div>
+                <div className="text-center py-4 text-gray-500 text-sm">No resource releases scheduled</div>
               ) : (
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">Project Name</th>
-                      <th className="px-4 py-3 text-left font-semibold text-gray-700">Count</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {keyMetrics.releasingResources.map(p => (
-                      <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <div className={cn(
-                              "w-2 h-2 rounded-full",
-                              p.daysUntilRelease <= 15 ? "bg-red-500" : "bg-amber-500"
-                            )} />
-                            <span className="font-medium text-gray-900">{p.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-gray-600">
-                          {p.resourceCount}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <div className="space-y-2">
+                  {keyMetrics.releasingResources.map(p => (
+                    <div key={p.id} className="flex items-center gap-3 p-2 bg-white rounded hover:bg-gray-50 transition-colors">
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        p.daysUntilRelease <= 15 ? "bg-red-500" : "bg-amber-500"
+                      )} />
+                      <div className="flex-1">
+                        <div className="font-medium text-sm text-gray-900">{p.name}</div>
+                        <div className="text-xs text-gray-500">
+                          {p.resourceCount} resource{p.resourceCount !== 1 ? 's' : ''} ({p.daysUntilRelease} days)
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
           </Card>
@@ -651,8 +605,8 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
         {/* Second Row: Low Billing Ratio and High Risk Projects Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Low Billing Ratio Card */}
-          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500 h-96">
-            <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500">
+            <div className="p-4 border-b border-gray-200 bg-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-red-600" />
@@ -664,7 +618,7 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
               </div>
               <p className="text-xs text-gray-600 mt-1.5">Projects below 70% utilization threshold</p>
             </div>
-            <div className="p-4 overflow-y-auto bg-gray-50 flex-1 min-h-0">
+            <div className="p-4 max-h-64 overflow-y-auto bg-gray-50">
               {keyMetrics.lowBillingRatio.length === 0 ? (
                 <div className="text-center py-4 text-gray-500 text-sm">All projects have healthy billing ratios</div>
               ) : (
@@ -690,8 +644,8 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
           </Card>
 
           {/* High Risk Projects Card */}
-          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500 h-96">
-            <div className="p-4 border-b border-gray-200 bg-white flex-shrink-0">
+          <Card className="overflow-hidden flex flex-col border-l-4 border-l-red-500">
+            <div className="p-4 border-b border-gray-200 bg-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-red-600" />
@@ -703,7 +657,7 @@ const DashboardView = ({ projects }: { projects: Project[] }) => {
               </div>
               <p className="text-xs text-gray-600 mt-1.5">Projects with multiple risk factors</p>
             </div>
-            <div className="p-4 overflow-y-auto bg-gray-50 flex-1 min-h-0">
+            <div className="p-4 max-h-64 overflow-y-auto bg-gray-50">
               {keyMetrics.highRiskProjects.length === 0 ? (
                 <div className="text-center py-4 text-gray-500 text-sm">No high risk projects</div>
               ) : (
@@ -734,15 +688,27 @@ const PortfolioView = ({ projects }: { projects: Project[] }) => {
   const [search, setSearch] = useState('');
   const [filterHealth, setFilterHealth] = useState('All');
   const [filterPM, setFilterPM] = useState('All');
+  const [filterWSR, setFilterWSR] = useState('All');
+  const [filterAudit, setFilterAudit] = useState('All');
 
   const uniquePMs = useMemo(() => Array.from(new Set(projects.map(p => p.pmName))), [projects]);
+
+  const getCompliance = (score: number): ComplianceStatus => {
+    if (score >= 90) return 'Fully Compliant';
+    if (score >= 80) return 'Moderately Compliant';
+    return 'Non-Compliant';
+  };
 
   const filteredProjects = projects.filter(p => {
     const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     const matchHealth = filterHealth === 'All' || p.health === filterHealth;
     const matchPM = filterPM === 'All' || p.pmName === filterPM;
+    const matchWSR = filterWSR === 'All' || p.wsrStatus === filterWSR;
+    
+    const compliance = getCompliance(p.auditScore);
+    const matchAudit = filterAudit === 'All' || compliance === filterAudit;
 
-    return matchSearch && matchHealth && matchPM;
+    return matchSearch && matchHealth && matchPM && matchWSR && matchAudit;
   });
 
   return (
@@ -800,13 +766,36 @@ const PortfolioView = ({ projects }: { projects: Project[] }) => {
                       </div>
                    </th>
                    <th className="px-6 py-4 font-semibold text-gray-700 align-middle">
-                      <span>Resources</span>
+                      <div className="flex items-center gap-1 cursor-pointer relative group w-max">
+                        <span>WSR Status</span>
+                        <ChevronDown className={cn("w-4 h-4 transition-colors", filterWSR !== 'All' ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
+                        <select 
+                          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                          value={filterWSR}
+                          onChange={(e) => setFilterWSR(e.target.value)}
+                        >
+                          <option value="All">All WSR</option>
+                          <option value="Submitted">Submitted</option>
+                          <option value="Overdue">Overdue</option>
+                          <option value="Pending">Pending</option>
+                        </select>
+                      </div>
                    </th>
                    <th className="px-6 py-4 font-semibold text-gray-700 align-middle">
-                      <span>Project Start Date</span>
-                   </th>
-                   <th className="px-6 py-4 font-semibold text-gray-700 align-middle">
-                      <span>Project End Date</span>
+                      <div className="flex items-center gap-1 cursor-pointer relative group w-max">
+                        <span>Audit Status</span>
+                        <ChevronDown className={cn("w-4 h-4 transition-colors", filterAudit !== 'All' ? "text-blue-600" : "text-gray-400 group-hover:text-gray-600")} />
+                        <select 
+                          className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                          value={filterAudit}
+                          onChange={(e) => setFilterAudit(e.target.value)}
+                        >
+                          <option value="All">All Compliance</option>
+                          <option value="Fully Compliant">Fully Compliant</option>
+                          <option value="Moderately Compliant">Moderately Compliant</option>
+                          <option value="Non-Compliant">Non-Compliant</option>
+                        </select>
+                      </div>
                    </th>
                  </tr>
                </thead>
@@ -816,20 +805,23 @@ const PortfolioView = ({ projects }: { projects: Project[] }) => {
                      <td className="px-6 py-4 font-medium text-gray-900">{p.name}</td>
                      <td className="px-6 py-4 text-gray-600">{p.pmName}</td>
                      <td className="px-6 py-4"><StatusBadge status={p.health} type="health" /></td>
-                     <td className="px-6 py-4 text-gray-600">
-                       {p.teamSize || 'N/A'}
+                     <td className="px-6 py-4 group relative cursor-help">
+                        <StatusBadge status={p.wsrStatus} type="wsr" />
+                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                          Week 43
+                        </div>
                      </td>
-                     <td className="px-6 py-4 text-gray-600">
-                       {p.projectStartDate ? new Date(p.projectStartDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}
-                     </td>
-                     <td className="px-6 py-4 text-gray-600">
-                       {p.projectEndDate ? new Date(p.projectEndDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}
+                     <td className="px-6 py-4 group relative cursor-help">
+                       <StatusBadge status={getCompliance(p.auditScore)} type="compliance" />
+                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                         {new Date(p.lastAuditDate).toLocaleString('default', { month: 'long', year: 'numeric' })}
+                       </div>
                      </td>
                    </tr>
                  ))}
                  {filteredProjects.length === 0 && (
                    <tr>
-                     <td colSpan={6} className="px-6 py-8 text-center text-gray-500">No projects found matching your filters.</td>
+                     <td colSpan={5} className="px-6 py-8 text-center text-gray-500">No projects found matching your filters.</td>
                    </tr>
                  )}
                </tbody>
@@ -928,6 +920,24 @@ const ResourceManagementView = ({ projects, pms }: { projects: Project[], pms: P
                  </th>
                  <th 
                    className="px-6 py-4 font-semibold text-gray-700 cursor-pointer group select-none hover:bg-gray-100 transition-colors"
+                   onClick={() => handleSort('healthLabel')}
+                 >
+                    <div className="flex items-center gap-1">Avg. Health <SortIcon field="healthLabel" /></div>
+                 </th>
+                 <th 
+                   className="px-6 py-4 font-semibold text-gray-700 cursor-pointer group select-none hover:bg-gray-100 transition-colors"
+                   onClick={() => handleSort('wsrStatusLabel')}
+                 >
+                    <div className="flex items-center gap-1">Avg. WSR Status <SortIcon field="wsrStatusLabel" /></div>
+                 </th>
+                 <th 
+                   className="px-6 py-4 font-semibold text-gray-700 cursor-pointer group select-none hover:bg-gray-100 transition-colors"
+                   onClick={() => handleSort('avgAudit')}
+                 >
+                    <div className="flex items-center gap-1">Avg. Audit Score <SortIcon field="avgAudit" /></div>
+                 </th>
+                 <th 
+                   className="px-6 py-4 font-semibold text-gray-700 cursor-pointer group select-none hover:bg-gray-100 transition-colors"
                    onClick={() => handleSort('util')}
                  >
                     <div className="flex items-center gap-1">Utilization % <SortIcon field="util" /></div>
@@ -957,6 +967,21 @@ const ResourceManagementView = ({ projects, pms }: { projects: Project[], pms: P
                     </div>
                   </td>
                   <td className="px-6 py-4 text-gray-600 pl-10">{d.count}</td>
+                  <td className="px-6 py-4">
+                    <span className={cn("font-medium", d.healthLabel === 'Strong' ? 'text-emerald-600' : d.healthLabel === 'Stable' ? 'text-amber-600' : 'text-red-600')}>
+                      {d.healthLabel}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                     <span className={cn("font-medium", d.wsrStatusLabel === 'Green' ? 'text-emerald-600' : d.wsrStatusLabel === 'Amber' ? 'text-amber-600' : 'text-red-600')}>
+                        {d.wsrStatusLabel}
+                     </span>
+                  </td>
+                  <td className="px-6 py-4">
+                     <span className={cn("font-medium", d.avgAudit >= 90 ? 'text-emerald-600' : d.avgAudit >= 80 ? 'text-amber-600' : 'text-red-600')}>
+                        {d.avgAudit}
+                     </span>
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                        <span className={cn("font-medium w-8 text-right", d.util > 110 ? "text-red-600" : "text-gray-700")}>{d.util}%</span>
@@ -1058,86 +1083,9 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
     return 'Non-Compliant';
   };
 
-  // Extract unique months and years from project audit dates
-  const availableMonths = useMemo(() => {
-    const months = new Set<number>();
-    projects.forEach(p => {
-      const date = new Date(p.lastAuditDate);
-      months.add(date.getMonth());
-    });
-    return Array.from(months).sort((a, b) => a - b);
-  }, [projects]);
-
-  const availableYears = useMemo(() => {
-    const years = new Set<number>();
-    projects.forEach(p => {
-      const date = new Date(p.lastAuditDate);
-      years.add(date.getFullYear());
-    });
-    return Array.from(years).sort((a, b) => b - a);
-  }, [projects]);
-
-  const [selectedMonth, setSelectedMonth] = useState<string>('All');
-  const [selectedYear, setSelectedYear] = useState<string>('All');
-
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-  const filteredProjects = useMemo(() => {
-    return projects.filter(p => {
-      const auditDate = new Date(p.lastAuditDate);
-      const month = auditDate.getMonth();
-      const year = auditDate.getFullYear();
-
-      const matchMonth = selectedMonth === 'All' || month === parseInt(selectedMonth);
-      const matchYear = selectedYear === 'All' || year === parseInt(selectedYear);
-
-      return matchMonth && matchYear;
-    });
-  }, [projects, selectedMonth, selectedYear]);
-
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <SectionTitle title="Audit & Compliance" subtitle="Monitor audit scores and compliance status." />
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-700">Month:</span>
-            <div className="relative">
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-              >
-                <option value="All">All Months</option>
-                {availableMonths.map((month) => (
-                  <option key={month} value={month.toString()}>{monthNames[month]}</option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <ChevronDown className="h-4 w-4" />
-              </div>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-700">Year:</span>
-            <div className="relative">
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
-              >
-                <option value="All">All Years</option>
-                {availableYears.map((year) => (
-                  <option key={year} value={year.toString()}>{year}</option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <ChevronDown className="h-4 w-4" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+       <SectionTitle title="Audit & Compliance" subtitle="Monitor audit scores and compliance status." />
        <Card className="overflow-hidden">
         <table className="w-full text-left text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -1152,7 +1100,7 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {filteredProjects.map(p => {
+            {projects.map(p => {
               const compliance = getCompliance(p.auditScore);
               return (
                 <tr key={p.id} className="hover:bg-gray-50">
@@ -1164,7 +1112,6 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
                   </td>
                   <td className="px-6 py-4"><StatusBadge status={compliance} type="compliance" /></td>
                   <td className="px-6 py-4 text-gray-600">{p.lastAuditDate}</td>
-                  <td className="px-6 py-4 text-gray-600">{p.pmName}</td>
                   {/* <td className="px-6 py-4">
                     {compliance === 'Non-Compliant' ? (
                       <button className="text-xs bg-red-50 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 font-medium">Escalate</button>
@@ -1175,11 +1122,6 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
                 </tr>
               );
             })}
-            {filteredProjects.length === 0 && (
-              <tr>
-                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">No projects found matching your filters.</td>
-              </tr>
-            )}
           </tbody>
         </table>
        </Card>
