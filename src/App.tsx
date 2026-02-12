@@ -1083,9 +1083,105 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
     return 'Non-Compliant';
   };
 
+  // Extract unique months and years from project data
+  const availableMonthsYears = useMemo(() => {
+    const monthYearSet = new Set<string>();
+    projects.forEach(p => {
+      const date = new Date(p.lastAuditDate);
+      const month = date.getMonth() + 1; // getMonth() returns 0-11
+      const year = date.getFullYear();
+      monthYearSet.add(`${year}-${month.toString().padStart(2, '0')}`);
+    });
+    
+    const sorted = Array.from(monthYearSet).sort((a, b) => {
+      const [yearA, monthA] = a.split('-').map(Number);
+      const [yearB, monthB] = b.split('-').map(Number);
+      if (yearA !== yearB) return yearB - yearA;
+      return monthB - monthA;
+    });
+
+    const months = Array.from(new Set(sorted.map(item => {
+      const [, month] = item.split('-');
+      return parseInt(month);
+    }))).sort((a, b) => b - a);
+
+    const years = Array.from(new Set(sorted.map(item => {
+      const [year] = item.split('-');
+      return parseInt(year);
+    }))).sort((a, b) => b - a);
+
+    return { months, years, all: sorted };
+  }, [projects]);
+
+  const [selectedMonth, setSelectedMonth] = useState<string>('All');
+  const [selectedYear, setSelectedYear] = useState<string>('All');
+
+  // Filter projects based on selected month and year
+  const filteredProjects = useMemo(() => {
+    return projects.filter(p => {
+      if (selectedMonth === 'All' && selectedYear === 'All') return true;
+      
+      const date = new Date(p.lastAuditDate);
+      const projectMonth = (date.getMonth() + 1).toString();
+      const projectYear = date.getFullYear().toString();
+
+      const matchMonth = selectedMonth === 'All' || projectMonth === selectedMonth;
+      const matchYear = selectedYear === 'All' || projectYear === selectedYear;
+
+      return matchMonth && matchYear;
+    });
+  }, [projects, selectedMonth, selectedYear]);
+
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
   return (
     <div className="space-y-6">
-       <SectionTitle title="Audit & Compliance" subtitle="Monitor audit scores and compliance status." />
+       <div className="flex justify-between items-center">
+         <SectionTitle title="Audit & Compliance" subtitle="Monitor audit scores and compliance status." />
+         <div className="flex items-center gap-3">
+           <div className="flex items-center gap-2">
+             <span className="text-sm font-medium text-gray-700">Month:</span>
+             <div className="relative">
+               <select
+                 value={selectedMonth}
+                 onChange={(e) => setSelectedMonth(e.target.value)}
+                 className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+               >
+                 <option value="All">All Months</option>
+                 {availableMonthsYears.months.map(month => (
+                   <option key={month} value={month.toString()}>
+                     {monthNames[month - 1]}
+                   </option>
+                 ))}
+               </select>
+               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                 <ChevronDown className="h-4 w-4" />
+               </div>
+             </div>
+           </div>
+           <div className="flex items-center gap-2">
+             <span className="text-sm font-medium text-gray-700">Year:</span>
+             <div className="relative">
+               <select
+                 value={selectedYear}
+                 onChange={(e) => setSelectedYear(e.target.value)}
+                 className="appearance-none bg-white border border-gray-300 text-gray-700 py-2 pl-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 text-sm"
+               >
+                 <option value="All">All Years</option>
+                 {availableMonthsYears.years.map(year => (
+                   <option key={year} value={year.toString()}>{year}</option>
+                 ))}
+               </select>
+               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                 <ChevronDown className="h-4 w-4" />
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
        <Card className="overflow-hidden">
         <table className="w-full text-left text-sm">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -1100,28 +1196,37 @@ const AuditCompliance = ({ projects }: { projects: Project[] }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {projects.map(p => {
-              const compliance = getCompliance(p.auditScore);
-              return (
-                <tr key={p.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 font-medium text-gray-900">{p.name}</td>
-                  <td className="px-6 py-4">
-                    <span className={cn("font-bold", compliance === 'Non-Compliant' ? 'text-red-600' : 'text-gray-700')}>
-                      {p.auditScore}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4"><StatusBadge status={compliance} type="compliance" /></td>
-                  <td className="px-6 py-4 text-gray-600">{p.lastAuditDate}</td>
-                  {/* <td className="px-6 py-4">
-                    {compliance === 'Non-Compliant' ? (
-                      <button className="text-xs bg-red-50 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 font-medium">Escalate</button>
-                    ) : (
-                      <span className="text-gray-400 text-xs">None</span>
-                    )}
-                  </td> */}
-                </tr>
-              );
-            })}
+            {filteredProjects.length === 0 ? (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                  No projects found for the selected month and year.
+                </td>
+              </tr>
+            ) : (
+              filteredProjects.map(p => {
+                const compliance = getCompliance(p.auditScore);
+                return (
+                  <tr key={p.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 font-medium text-gray-900">{p.name}</td>
+                    <td className="px-6 py-4">
+                      <span className={cn("font-bold", compliance === 'Non-Compliant' ? 'text-red-600' : 'text-gray-700')}>
+                        {p.auditScore}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4"><StatusBadge status={compliance} type="compliance" /></td>
+                    <td className="px-6 py-4 text-gray-600">{p.lastAuditDate}</td>
+                    <td className="px-6 py-4 text-gray-600">{p.pmName}</td>
+                    {/* <td className="px-6 py-4">
+                      {compliance === 'Non-Compliant' ? (
+                        <button className="text-xs bg-red-50 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 font-medium">Escalate</button>
+                      ) : (
+                        <span className="text-gray-400 text-xs">None</span>
+                      )}
+                    </td> */}
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
        </Card>
